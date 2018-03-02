@@ -1,0 +1,10 @@
+/target/
+.DS_Store
+
+#eclipse
+/.classpath
+/.project
+/.settings/
+
+# virtual machine crash logs
+hs_err_pid*
