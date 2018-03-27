@@ -19,28 +19,28 @@ public abstract class ByteStoredConfig extends Config {
         Object value;
         switch (type) {
         case TYPE_STRING:
-            value = ByteUtil.bytes2string(bytes);
+            value = ByteUtil.toString(bytes);
             break;
         case TYPE_BOOLEAN:
             value = bytes[0] == 0 ? Boolean.FALSE : Boolean.TRUE;
             break;
         case TYPE_INT:
-            value = ByteUtil.bytes2int(bytes);
+            value = ByteUtil.toInt(bytes);
             break;
         case TYPE_LONG:
-            value = ByteUtil.bytes2long(bytes);
+            value = ByteUtil.toLong(bytes);
             break;
         case TYPE_DOUBLE:
-            value = ByteUtil.bytes2double(bytes);
+            value = ByteUtil.toDouble(bytes);
             break;
         case TYPE_DATE:
-            value = new Date(ByteUtil.bytes2long(bytes));
+            value = new Date(ByteUtil.toLong(bytes));
             break;
         case TYPE_BLOB:
             value = bytes;
             break;
         case TYPE_JSONOBJECT:
-            value = JSONUtil.parseJSONObject(ByteUtil.bytes2string(bytes));
+            value = JSONUtil.parseJSONObject(ByteUtil.toString(bytes));
             break;
         default:
             throw new RuntimeException("Unknown config type: " + type);
@@ -58,22 +58,22 @@ public abstract class ByteStoredConfig extends Config {
         byte[] bytes;
         switch (type) {
         case TYPE_STRING:
-            bytes = ByteUtil.string2bytes(FormatUtil.parseString(value));
+            bytes = ByteUtil.fromString(FormatUtil.parseString(value));
             break;
         case TYPE_INT:
-            bytes = ByteUtil.int2bytes(FormatUtil.parseInteger(value));
+            bytes = ByteUtil.fromInt(FormatUtil.parseInteger(value));
             break;
         case TYPE_BOOLEAN:
             bytes = new byte[] { FormatUtil.parseBoolean(value, false) ? (byte) 1 : 0 };
             break;
         case TYPE_DOUBLE:
-            bytes = ByteUtil.double2bytes(FormatUtil.parseDouble(value));
+            bytes = ByteUtil.fromDouble(FormatUtil.parseDouble(value));
             break;
         case TYPE_LONG:
-            bytes = ByteUtil.long2bytes(FormatUtil.parseLong(value));
+            bytes = ByteUtil.fromLong(FormatUtil.parseLong(value));
             break;
         case TYPE_DATE:
-            bytes = ByteUtil.long2bytes(FormatUtil.parseDate(value).getTime());
+            bytes = ByteUtil.fromLong(FormatUtil.parseDate(value).getTime());
             break;
         case TYPE_BLOB:
             bytes = (byte[]) value;
@@ -89,7 +89,7 @@ public abstract class ByteStoredConfig extends Config {
             if (s == null) {
                 throw new RuntimeException("Bad object: " + value);
             }
-            bytes = ByteUtil.string2bytes(s);
+            bytes = ByteUtil.fromString(s);
             break;
         }
         default:

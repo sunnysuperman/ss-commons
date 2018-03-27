@@ -6,12 +6,6 @@ import java.util.Map.Entry;
 
 import com.sunnysuperman.commons.util.FileUtil;
 
-/**
- * 属性文件配置类
- * 
- * 
- *
- */
 public class PropertiesConfig extends Config {
 
     public PropertiesConfig(InputStream in, String charset) {
@@ -51,16 +45,6 @@ public class PropertiesConfig extends Config {
             }
             put(entry.getKey().toString(), tv, true);
         }
-    }
-
-    @Override
-    public void save(String key, String type, Object value) {
-        throw new RuntimeException("Not supported");
-    }
-
-    @Override
-    public void purge(String key) {
-        throw new RuntimeException("Not supported");
     }
 
     @Override

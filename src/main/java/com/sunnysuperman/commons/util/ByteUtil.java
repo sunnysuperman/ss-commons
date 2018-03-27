@@ -2,21 +2,28 @@ package com.sunnysuperman.commons.util;
 
 public class ByteUtil {
 
-    public static byte[] string2bytes(String s) {
+    public static byte[] fromString(String s) {
         if (s == null) {
             return null;
         }
         return s.getBytes(StringUtil.UTF8_CHARSET);
     }
 
-    public static String bytes2string(byte[] bytes) {
+    public static String toString(byte[] bytes) {
         if (bytes == null) {
             return null;
         }
         return new String(bytes, StringUtil.UTF8_CHARSET);
     }
 
-    public static byte[] int2bytes(int num) {
+    public static String toString(byte[] bytes, int offset, int length) {
+        if (bytes == null) {
+            return null;
+        }
+        return new String(bytes, offset, length, StringUtil.UTF8_CHARSET);
+    }
+
+    public static byte[] fromInt(int num) {
         byte[] buf = new byte[4];
         for (int i = buf.length - 1; i >= 0; i--) {
             buf[i] = (byte) (num & 0x000000ff);
@@ -25,7 +32,7 @@ public class ByteUtil {
         return buf;
     }
 
-    public static int bytes2int(byte[] bytes) {
+    public static int toInt(byte[] bytes) {
         int num = 0;
         for (int i = 0; i < 4; i++) {
             num <<= 8;
@@ -34,7 +41,7 @@ public class ByteUtil {
         return num;
     }
 
-    public static int bytes2int(byte[] bytes, int offset) {
+    public static int toInt(byte[] bytes, int offset) {
         int num = 0;
         for (int i = offset; i < offset + 4; i++) {
             num <<= 8;
@@ -43,7 +50,7 @@ public class ByteUtil {
         return num;
     }
 
-    public static byte[] long2bytes(long num) {
+    public static byte[] fromLong(long num) {
         byte[] buf = new byte[8];
         for (int i = buf.length - 1; i >= 0; i--) {
             buf[i] = (byte) (num & 0x00000000000000ff);
@@ -52,7 +59,7 @@ public class ByteUtil {
         return buf;
     }
 
-    public static long bytes2long(byte[] bytes) {
+    public static long toLong(byte[] bytes) {
         long num = 0;
         for (int i = 0; i < 8; i++) {
             num <<= 8;
@@ -61,7 +68,7 @@ public class ByteUtil {
         return num;
     }
 
-    public static long bytes2long(byte[] bytes, int offset) {
+    public static long toLong(byte[] bytes, int offset) {
         long num = 0;
         for (int i = offset; i < offset + 8; i++) {
             num <<= 8;
@@ -70,7 +77,7 @@ public class ByteUtil {
         return num;
     }
 
-    public static byte[] short2bytes(short num) {
+    public static byte[] fromShort(short num) {
         byte[] buf = new byte[2];
         for (int i = buf.length - 1; i >= 0; i--) {
             buf[i] = (byte) (num & 0x00ff);
@@ -79,7 +86,7 @@ public class ByteUtil {
         return buf;
     }
 
-    public static short bytes2short(byte[] bytes) {
+    public static short toShort(byte[] bytes) {
         short num = 0;
         for (int i = 0; i < 2; i++) {
             num <<= 8;
@@ -88,7 +95,7 @@ public class ByteUtil {
         return num;
     }
 
-    public static short bytes2short(byte[] bytes, int offset) {
+    public static short toShort(byte[] bytes, int offset) {
         short num = 0;
         for (int i = offset; i < offset + 2; i++) {
             num <<= 8;
@@ -97,18 +104,18 @@ public class ByteUtil {
         return num;
     }
 
-    public static byte[] double2bytes(double x) {
+    public static byte[] fromDouble(double x) {
         long l = Double.doubleToLongBits(x);
-        return long2bytes(l);
+        return fromLong(l);
     }
 
-    public static double bytes2double(byte[] bytes) {
-        long l = bytes2long(bytes);
+    public static double toDouble(byte[] bytes) {
+        long l = toLong(bytes);
         return Double.longBitsToDouble(l);
     }
 
-    public static double bytes2double(byte[] bytes, int offset) {
-        long l = bytes2long(bytes, offset);
+    public static double toDouble(byte[] bytes, int offset) {
+        long l = toLong(bytes, offset);
         return Double.longBitsToDouble(l);
     }
 

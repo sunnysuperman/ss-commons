@@ -25,24 +25,15 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class FileUtil {
-    /**
-     * 反斜杠字符
-     */
+    public static final String LINE = System.getProperty("line.separator");
     public static final char SLASH_CHAR = '/';
-    /**
-     * 反斜杠字符串
-     */
     public static final String SLASH = "/";
 
-    /**
-     * 
-     * @param in
-     */
     public static void close(Closeable in) {
         if (in != null) {
             try {
                 in.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
 
             }
         }
@@ -104,8 +95,9 @@ public class FileUtil {
      */
     public static boolean isValidFile(String[] allowedExts, String fileName) {
         String ext = getFileExt(fileName);
-        if (ext == null)
+        if (ext == null) {
             return false;
+        }
         ext = ext.trim().toLowerCase();
         for (int i = 0; i < allowedExts.length; i++) {
             if (ext.equals(allowedExts[i])) {
@@ -853,7 +845,7 @@ public class FileUtil {
     public static LinkedHashMap<String, String> readProperties(InputStream in, String charset,
             boolean escapeSpecialChars) throws Exception {
         ReadPropertiesLineHandler handler = new ReadPropertiesLineHandler(escapeSpecialChars);
-        FileUtil.read(in, charset, handler);
+        read(in, charset, handler);
         return handler.getProperties();
     }
 
@@ -867,9 +859,9 @@ public class FileUtil {
             FileInputStream in = null;
             try {
                 in = new FileInputStream(srcFile);
-                FileUtil.copy(in, out);
+                copy(in, out);
             } finally {
-                FileUtil.close(in);
+                close(in);
             }
             out.closeEntry();
         } else {
@@ -883,7 +875,7 @@ public class FileUtil {
     }
 
     public static void zip(File archiveFile, File[] srcFiles, String encoding) throws IOException {
-        FileUtil.ensureFile(archiveFile);
+        ensureFile(archiveFile);
         if (encoding == null) {
             encoding = StringUtil.UTF8;
         }
@@ -894,7 +886,7 @@ public class FileUtil {
                 addFileToZip(srcFile, out, StringUtil.EMPTY);
             }
         } finally {
-            FileUtil.close(out);
+            close(out);
         }
     }
 
@@ -902,7 +894,7 @@ public class FileUtil {
         if (!srcFile.exists()) {
             throw new IOException("Source file " + srcFile.getAbsolutePath() + " does not exists");
         }
-        FileUtil.ensureFile(archiveFile);
+        ensureFile(archiveFile);
         if (encoding == null) {
             encoding = StringUtil.UTF8;
         }
@@ -911,7 +903,7 @@ public class FileUtil {
             out = new ZipOutputStream(new FileOutputStream(archiveFile), Charset.forName(encoding));
             addFileToZip(srcFile, out, StringUtil.EMPTY);
         } finally {
-            FileUtil.close(out);
+            close(out);
         }
     }
 
@@ -936,30 +928,25 @@ public class FileUtil {
             while (en.hasMoreElements()) {
                 zipEntry = en.nextElement();
                 String name = zipEntry.getName();
-                File destFile = FileUtil.getFile(new String[] { destDir.getAbsolutePath(), name });
+                File destFile = getFile(new String[] { destDir.getAbsolutePath(), name });
                 if (zipEntry.isDirectory()) {
                     destFile.mkdirs();
                 } else {
-                    FileUtil.ensureFile(destFile);
+                    ensureFile(destFile);
                     InputStream in = null;
                     FileOutputStream out = null;
                     try {
                         in = zipFile.getInputStream(zipEntry);
                         out = new FileOutputStream(destFile);
-                        FileUtil.copy(in, out);
+                        copy(in, out);
                     } finally {
-                        FileUtil.close(in);
-                        FileUtil.close(out);
+                        close(in);
+                        close(out);
                     }
                 }
             }
         } finally {
-            if (zipFile != null) {
-                try {
-                    zipFile.close();
-                } catch (Exception ex) {
-                }
-            }
+            close(zipFile);
         }
     }
 

@@ -287,9 +287,5 @@ public abstract class Config {
         return tv != null ? tv.asJSONObject() : defaultValue;
     }
 
-    public abstract void save(String key, String type, Object value);
-
-    public abstract void purge(String key);
-
     protected abstract TypeAndValue load(String key);
 }

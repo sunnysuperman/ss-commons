@@ -178,9 +178,11 @@ public abstract class LocaleBundle {
         if (table == null) {
             return null;
         }
-        locale = LocaleUtil.findSupportLocale(locale, table.keySet());
         if (locale != null) {
-            return table.get(locale);
+            locale = LocaleUtil.findSupportLocale(locale, table.keySet());
+            if (locale != null) {
+                return table.get(locale);
+            }
         }
         String[] preferencedLocales = options.getPrefLocales();
         if (preferencedLocales != null) {
@@ -244,18 +246,18 @@ public abstract class LocaleBundle {
                     return null;
                 }
                 String d = number.toString();
-                String s = getWithMapParams(locale, prefix + "[" + d + "]", context);
+                String s = getWithParams(locale, prefix + "[" + d + "]", context);
                 if (s != null) {
                     return s;
                 }
-                return getWithMapParams(locale, prefix + "[other]", context);
+                return getWithParams(locale, prefix + "[other]", context);
             }
             return null;
         }
 
     }
 
-    public String getWithMapParams(String locale, String key, Map<String, Object> context) {
+    public String getWithParams(String locale, String key, Map<String, Object> context) {
         String text = getRaw(locale, key);
         if (context == null) {
             return text;

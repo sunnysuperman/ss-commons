@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sunnysuperman</groupId>
 	<artifactId>ss-commons</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 	<url>https://github.com/sunnysuperman/${project.artifactId}</url>
