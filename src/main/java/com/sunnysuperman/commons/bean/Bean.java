@@ -135,13 +135,15 @@ public class Bean {
         List<T> beans = new ArrayList<T>(items.size());
         for (Object item : items) {
             Map<?, ?> jsonObject = (Map<?, ?>) item;
-            T bean;
-            try {
-                bean = clazz.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new BeanException("Failed to newInstance of " + clazz, e);
+            T bean = null;
+            if (jsonObject != null) {
+                try {
+                    bean = clazz.newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    throw new BeanException("Failed to newInstance of " + clazz, e);
+                }
+                bean = fromMap(jsonObject, bean, options, null);
             }
-            bean = fromMap(jsonObject, bean, options, null);
             beans.add(bean);
         }
         return beans;
