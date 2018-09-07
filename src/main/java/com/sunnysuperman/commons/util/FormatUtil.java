@@ -368,6 +368,30 @@ public class FormatUtil {
         return s;
     }
 
+    public static BigDecimal parseDecimal(Object value, BigDecimal defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        }
+        if (value instanceof Long) {
+            return new BigDecimal((Long) value);
+        }
+        if (value instanceof Integer) {
+            return new BigDecimal((Integer) value);
+        }
+        String s = value.toString();
+        if (s.isEmpty()) {
+            return defaultValue;
+        }
+        return new BigDecimal(s);
+    }
+
+    public static BigDecimal parseDecimal(Object value) {
+        return parseDecimal(value, null);
+    }
+
     @Deprecated
     public static long date2timestamp(Date date) {
         if (date == null) {

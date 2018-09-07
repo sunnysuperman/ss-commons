@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -308,6 +309,9 @@ public class Bean {
         if (destClass.equals(byte.class)) {
             Byte s = FormatUtil.parseByte(raw);
             return s == null ? (byte) 0 : s.byteValue();
+        }
+        if (destClass.equals(BigDecimal.class)) {
+            return FormatUtil.parseDecimal(raw);
         }
         if (destClass.equals(Character.class) || destClass.equals(char.class)) {
             return raw.toString().charAt(0);
