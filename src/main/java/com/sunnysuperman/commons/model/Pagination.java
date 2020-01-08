@@ -22,6 +22,10 @@ public class Pagination<T> {
     protected int offset;
     protected int limit = DEFAULT_PAGESIZE;
 
+    public Pagination() {
+        super();
+    }
+
     public Pagination(Collection<T> items, int total, int offset, int limit) {
         this.items = items;
         this.total = total;
@@ -37,16 +41,32 @@ public class Pagination<T> {
         return items;
     }
 
+    public void setItems(Collection<T> items) {
+        this.items = items;
+    }
+
     public int getTotal() {
         return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     public int getOffset() {
         return offset;
     }
 
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
     public int getLimit() {
         return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
 }
