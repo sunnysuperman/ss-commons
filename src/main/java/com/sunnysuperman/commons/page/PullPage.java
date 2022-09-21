@@ -34,8 +34,12 @@ public class PullPage<T> {
 		return of(Collections.singletonList(data), null, false);
 	}
 
-	public static <T> PullPage<T> extend(List<T> data, PullPage<?> page) {
+	public static <T> PullPage<T> extend(PullPage<?> page, List<T> data) {
 		return of(data, page.getMarker(), page.hasMore);
+	}
+
+	public boolean hasContent() {
+		return content != null && content.size() > 0;
 	}
 
 	public List<T> getContent() {

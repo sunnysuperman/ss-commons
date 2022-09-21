@@ -14,8 +14,20 @@ public class Page<T> {
 		return new Page<T>(Collections.emptyList(), 0, 0, limit);
 	}
 
+	public static <T> Page<T> empty(PageRequest request) {
+		return new Page<T>(Collections.emptyList(), 0, 0, request.getLimit());
+	}
+
 	public static <T> Page<T> singleton(T t, int limit) {
 		return new Page<T>(Collections.singletonList(t), 1, 0, limit);
+	}
+
+	public static <T> Page<T> singleton(T t, PageRequest request) {
+		return new Page<T>(Collections.singletonList(t), 1, 0, request.getLimit());
+	}
+
+	public static <T> Page<T> extend(Page<?> page, List<T> content) {
+		return new Page<T>(content, page.getTotal(), page.getOffset(), page.getLimit());
 	}
 
 	protected List<T> content;
@@ -32,6 +44,10 @@ public class Page<T> {
 		this.total = total;
 		this.offset = offset;
 		setLimit(limit);
+	}
+
+	public boolean hasContent() {
+		return content != null && content.size() > 0;
 	}
 
 	public int getPages() {
