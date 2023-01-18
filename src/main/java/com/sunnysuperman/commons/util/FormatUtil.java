@@ -362,6 +362,8 @@ public class FormatUtil {
 				date = dateFormat.parse(s);
 			} else if (s.indexOf('.') > 0) {
 				date = new SimpleDateFormat(ISO8601DATE_WITH_ZONE_MILLS_FORMAT).parse(s);
+			} else if (s.indexOf('T') > 0) {
+				date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
 			} else {
 				date = new SimpleDateFormat(ISO8601DATE_WITH_ZONE_FORMAT).parse(s);
 			}

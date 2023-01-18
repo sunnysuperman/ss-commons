@@ -24,7 +24,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FileUtil {
+	private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
 	public static final String LINE = System.getProperty("line.separator");
 	public static final char SLASH_CHAR = '/';
 	public static final String SLASH = "/";
@@ -576,6 +580,17 @@ public class FileUtil {
 			delete(subFile);
 		}
 		return file.delete();
+	}
+
+	public static void deleteQuietly(File file) {
+		if (file == null) {
+			return;
+		}
+		try {
+			delete(file);
+		} catch (Throwable t) {
+			LOG.error(null, t);
+		}
 	}
 
 	/**
