@@ -1,16 +1,19 @@
 package com.sunnysuperman.commons.test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.util.jar.JarFile;
+
+import org.junit.jupiter.api.Test;
 
 import com.sunnysuperman.commons.util.FileUtil;
 import com.sunnysuperman.commons.util.JarUtil;
 
-import junit.framework.TestCase;
+class JarUtilTest {
 
-public class JarUtilTest extends TestCase {
-
-	public void test_copyJarDir() throws Exception {
+	@Test
+	void copyJarDir() throws Exception {
 		String dest = System.getProperty("user.dir") + "/tmp/jar-util-copydir";
 		File destDir = new File(dest);
 		JarFile jar = new JarFile(
@@ -33,7 +36,8 @@ public class JarUtilTest extends TestCase {
 		}
 	}
 
-	public void test_copyJarDir2() throws Exception {
+	@Test
+	void copyJarDir2() throws Exception {
 		String dest = System.getProperty("user.dir") + "/tmp/jar-util-copydir2";
 		File destDir = new File(dest);
 
@@ -54,7 +58,8 @@ public class JarUtilTest extends TestCase {
 		}
 	}
 
-	public void test_copyJarFile() throws Exception {
+	@Test
+	void copyJarFile() throws Exception {
 		{
 			String dest = System.getProperty("user.dir") + "/tmp/test.properties";
 			File destFile = new File(dest);
@@ -73,7 +78,8 @@ public class JarUtilTest extends TestCase {
 		}
 	}
 
-	public void test_copyJarFile2() throws Exception {
+	@Test
+	void copyJarFile2() throws Exception {
 		JarFile jar = new JarFile(
 				JarUtilTest.class.getResource("/com/sunnysuperman/commons/test/jar-util/test.jar").getFile());
 
