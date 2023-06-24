@@ -21,7 +21,7 @@ public class TaskEngine {
 	/**
 	 * 任务列表
 	 */
-	protected final LinkedList<Runnable> taskList = new LinkedList<Runnable>();
+	protected final LinkedList<Runnable> taskList = new LinkedList<>();
 	/**
 	 * 添加task的同步锁
 	 */

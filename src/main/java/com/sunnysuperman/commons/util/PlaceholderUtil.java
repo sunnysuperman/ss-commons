@@ -2,7 +2,12 @@ package com.sunnysuperman.commons.util;
 
 import java.util.Map;
 
+import com.sunnysuperman.commons.exception.UnexpectedException;
+
 public class PlaceholderUtil {
+
+	protected PlaceholderUtil() {
+	}
 
 	public static interface CompileHandler {
 
@@ -96,11 +101,11 @@ public class PlaceholderUtil {
 			int keyStartIndex = bracketStartIndex + tokenStartChars.length();
 			int bracketEndIndex = s.indexOf(tokenEndChars, keyStartIndex);
 			if (bracketEndIndex < 0) {
-				throw new RuntimeException("No bracket end: " + s.substring(bracketStartIndex));
+				throw new UnexpectedException("No bracket end: " + s.substring(bracketStartIndex));
 			}
 			String key = s.substring(keyStartIndex, bracketEndIndex);
 			if (key.isEmpty()) {
-				throw new RuntimeException("Empty key");
+				throw new UnexpectedException("Empty key");
 			}
 			String value = handler.compile(key, context);
 			if (bracketStartIndex > fromIndex) {

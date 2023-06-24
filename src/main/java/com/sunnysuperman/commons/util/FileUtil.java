@@ -27,18 +27,23 @@ import java.util.zip.ZipOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sunnysuperman.commons.exception.UnexpectedException;
+
 public class FileUtil {
 	private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
 	public static final String LINE = System.getProperty("line.separator");
 	public static final char SLASH_CHAR = '/';
 	public static final String SLASH = "/";
 
+	protected FileUtil() {
+	}
+
 	public static void close(Closeable in) {
 		if (in != null) {
 			try {
 				in.close();
 			} catch (Exception e) {
-
+				// ignore
 			}
 		}
 	}
@@ -489,7 +494,7 @@ public class FileUtil {
 	 */
 	public static File getFile(String[] paths) {
 		if (paths == null || paths.length == 0) {
-			throw new RuntimeException("Bad paths");
+			throw new UnexpectedException("Bad paths");
 		}
 		StringBuilder buf = new StringBuilder();
 		for (int i = 0; i < paths.length; i++) {
@@ -630,8 +635,11 @@ public class FileUtil {
 				}
 			}
 			while (entries.hasMoreElements()) {
-				JarEntry entry = (JarEntry) entries.nextElement();
+				JarEntry entry = entries.nextElement();
 				String fullEntryName = toUnixFilePath(entry.getName());
+				if (fullEntryName == null || fullEntryName.isEmpty()) {
+					continue;
+				}
 				String entryName = fullEntryName;
 				if (!relativePath.isEmpty()) {
 					if (!fullEntryName.startsWith(relativePath) || fullEntryName.length() == relativePath.length()) {
@@ -695,13 +703,17 @@ public class FileUtil {
 	 */
 	public static void listClassPathFiles(Class<?> clazz, String dirPath, FileListHandler handler) throws Exception {
 		URL dirURL = clazz.getResource(dirPath);
-		if (dirURL != null && dirURL.getProtocol().equals("file")) {
+		if (dirURL == null) {
+			throw new IOException("Bad dirPath: " + dirPath);
+		}
+		String protocol = dirURL.getProtocol();
+		if (protocol.equals("file")) {
 			File file = new File(dirURL.getFile());
 			if (!file.isDirectory()) {
 				throw new IOException("Not a directory");
 			}
 			listSystemPathFiles(file, file.getAbsolutePath(), handler);
-		} else if (dirURL.getProtocol().equals("jar")) {
+		} else if (protocol.equals("jar")) {
 			// file:/xxx/xxx.jar!/conf/locales
 			String dirInJarPath = dirURL.getPath();
 			String jarKey = ".jar!";
@@ -744,11 +756,11 @@ public class FileUtil {
 		public String[] getKV(String s) {
 			int offset = s.indexOf('=');
 			if (offset <= 0) {
-				throw new RuntimeException("Bad config line: " + s);
+				throw new UnexpectedException("Bad config line: " + s);
 			}
 			String key = s.substring(0, offset).trim();
 			if (key.isEmpty()) {
-				throw new RuntimeException("Empty key");
+				throw new UnexpectedException("Empty key");
 			}
 			String value = s.substring(offset + 1).trim();
 			return new String[] { key, value };

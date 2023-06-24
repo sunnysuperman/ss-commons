@@ -7,6 +7,9 @@ import com.sunnysuperman.commons.util.StringUtil;
 public class LocaleUtil {
 	private static final char LOCALE_SEPERATOR_CHAR = '_';
 
+	private LocaleUtil() {
+	}
+
 	public static String formatLocale(String locale) {
 		if (StringUtil.isEmpty(locale)) {
 			return null;

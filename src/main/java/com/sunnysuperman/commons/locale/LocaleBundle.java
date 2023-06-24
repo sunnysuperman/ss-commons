@@ -7,11 +7,12 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.sunnysuperman.commons.exception.UnexpectedException;
 import com.sunnysuperman.commons.util.FormatUtil;
 import com.sunnysuperman.commons.util.PlaceholderUtil;
-import com.sunnysuperman.commons.util.StringUtil;
 import com.sunnysuperman.commons.util.PlaceholderUtil.CompileHandler;
 import com.sunnysuperman.commons.util.PlaceholderUtil.CompileOptions;
+import com.sunnysuperman.commons.util.StringUtil;
 
 public abstract class LocaleBundle {
 
@@ -89,14 +90,9 @@ public abstract class LocaleBundle {
 
 	}
 
-	// private static final Pattern P0 = Pattern.compile("\\$\\{([^\\}]+)\\}");
-	// private static final Pattern P1 =
-	// Pattern.compile("\\$\\{([a-zA-Z0-9_(),\\.\\[\\]]+)\\}");
-	// private static final Pattern P2 =
-	// Pattern.compile("\\{([a-zA-Z0-9_(),\\.\\[\\]]+)\\}");
 	private final byte[] writeLock = new byte[0];
 	private volatile boolean initialized = false;
-	private Map<String, Map<String, String>> bundlesMap = new ConcurrentHashMap<String, Map<String, String>>(0);
+	private Map<String, Map<String, String>> bundlesMap = new ConcurrentHashMap<>(0);
 	protected final LocaleBundleOptions options;
 	private final CompileOptions compileOptions;
 
@@ -105,7 +101,7 @@ public abstract class LocaleBundle {
 		this.compileOptions = new CompileOptions().setStartToken(options.getCompileStartToken())
 				.setEndToken(options.getCompileEndToken());
 		if (options.getDefaultLocale() == null) {
-			throw new RuntimeException(wrapLogMessage("No default locale set", options));
+			throw new UnexpectedException(wrapLogMessage("No default locale set", options));
 		}
 	}
 
@@ -146,7 +142,7 @@ public abstract class LocaleBundle {
 			String key = bundleEntry.getKey();
 			Map<String, String> table = bundleEntry.getValue();
 			if (table.get(options.getDefaultLocale()) == null) {
-				throw new RuntimeException(wrapLogMessage("No default value set for key: " + key, options));
+				throw new UnexpectedException(wrapLogMessage("No default value set for key: " + key, options));
 			}
 			if (options.strictMode) {
 				if (locales == null) {
@@ -154,7 +150,7 @@ public abstract class LocaleBundle {
 				} else {
 					Set<String> theLocales = table.keySet();
 					if (theLocales.size() != locales.size() || !theLocales.containsAll(locales)) {
-						throw new RuntimeException(wrapLogMessage("Missing some locales for key: " + key, options));
+						throw new UnexpectedException(wrapLogMessage("Missing some locales for key: " + key, options));
 					}
 				}
 			}
@@ -172,7 +168,7 @@ public abstract class LocaleBundle {
 
 	public String getRaw(String locale, String key) {
 		if (!initialized) {
-			throw new RuntimeException("Does not finish init");
+			throw new UnexpectedException("Does not finish init");
 		}
 		Map<String, String> table = bundlesMap.get(key);
 		if (table == null) {

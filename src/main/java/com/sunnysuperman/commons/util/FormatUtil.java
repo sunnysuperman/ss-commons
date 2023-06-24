@@ -17,6 +17,9 @@ public class FormatUtil {
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final int ISO8601DATE_FORMAT_VALUE_LENGTH = ISO8601DATE_FORMAT.length() - 4;
 
+	protected FormatUtil() {
+	}
+
 	public static class FormatException extends RuntimeException {
 
 		public FormatException(String message) {
@@ -79,7 +82,7 @@ public class FormatUtil {
 				return Double.valueOf(theString);
 			} else {
 				Long longObject = Long.valueOf(theString);
-				long longValue = (long) longObject.longValue();
+				long longValue = longObject.longValue();
 				if (longValue > Integer.MAX_VALUE) {
 					return longObject;
 				} else {

@@ -3,6 +3,8 @@ package com.sunnysuperman.commons.page;
 import java.util.Collections;
 import java.util.List;
 
+import com.sunnysuperman.commons.exception.UnexpectedException;
+
 public class PullPage<T> {
 	protected List<T> content;
 	protected String marker;
@@ -14,12 +16,12 @@ public class PullPage<T> {
 		}
 		if (hasMore) {
 			if (marker == null) {
-				throw new RuntimeException("marker should not be null if hasMore");
+				throw new UnexpectedException("marker should not be null if hasMore");
 			}
 		} else {
 			marker = null;
 		}
-		PullPage<T> pr = new PullPage<T>();
+		PullPage<T> pr = new PullPage<>();
 		pr.content = content;
 		pr.marker = marker;
 		pr.hasMore = hasMore;
@@ -39,7 +41,7 @@ public class PullPage<T> {
 	}
 
 	public boolean hasContent() {
-		return content != null && content.size() > 0;
+		return content != null && !content.isEmpty();
 	}
 
 	public List<T> getContent() {

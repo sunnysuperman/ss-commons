@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.sunnysuperman.commons.exception.UnexpectedException;
 import com.sunnysuperman.commons.util.FileUtil;
 import com.sunnysuperman.commons.util.StringUtil;
 
@@ -58,14 +59,14 @@ public class FileSystemPropertiesLocaleBundle extends LocaleBundle {
 			if (locale == null) {
 				locale = defaultLocale;
 				if (locale == null) {
-					throw new RuntimeException("Bad locale file columnName: " + file.getName());
+					throw new UnexpectedException("Bad locale file columnName: " + file.getName());
 				}
 			}
 			Map<String, String> props = null;
 			try {
 				props = FileUtil.readProperties(new FileInputStream(file), options.getCharset(), false);
 			} catch (Exception e) {
-				throw new RuntimeException("Failed to load: " + file.getAbsolutePath());
+				throw new UnexpectedException("Failed to load: " + file.getAbsolutePath());
 			}
 			for (Entry<String, String> entry : props.entrySet()) {
 				String key = StringUtil.trimToNull(entry.getKey());
@@ -79,7 +80,7 @@ public class FileSystemPropertiesLocaleBundle extends LocaleBundle {
 					if (e instanceof RuntimeException) {
 						throw (RuntimeException) e;
 					} else {
-						throw new RuntimeException(e);
+						throw new UnexpectedException(e);
 					}
 				}
 			}
@@ -90,18 +91,18 @@ public class FileSystemPropertiesLocaleBundle extends LocaleBundle {
 	public static String detectLocaleFromFileName(String fileName, String prefix) {
 		int end = fileName.indexOf('.');
 		if (end <= 0) {
-			throw new RuntimeException("Bad fileName: " + fileName);
+			throw new UnexpectedException("Bad fileName: " + fileName);
 		}
 		if (prefix == null) {
 			return fileName.substring(0, end);
 		}
 		int start = fileName.indexOf(prefix);
 		if (start != 0) {
-			throw new RuntimeException("Bad fileName: " + fileName);
+			throw new UnexpectedException("Bad fileName: " + fileName);
 		}
 		start = prefix.length();
 		if (end < start) {
-			throw new RuntimeException("Bad fileName: " + fileName);
+			throw new UnexpectedException("Bad fileName: " + fileName);
 		}
 		if (end == start) {
 			return null;

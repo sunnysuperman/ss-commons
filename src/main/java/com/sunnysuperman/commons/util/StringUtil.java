@@ -2,6 +2,7 @@ package com.sunnysuperman.commons.util;
 
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,9 +14,14 @@ import java.util.regex.Pattern;
  * 
  */
 public class StringUtil {
-	public static final String UTF8 = "UTF-8";
-	public static final Charset UTF8_CHARSET = Charset.forName(UTF8);
+	public static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
+	public static final String UTF8 = StandardCharsets.UTF_8.name();
 	public static final String EMPTY = "";
+
+	private static final Random RANDOM = new Random();
+
+	protected StringUtil() {
+	}
 
 	/**
 	 * 用指定的字符串替换某字符串的匹配子串，只替换匹配到的第一个
@@ -63,7 +69,7 @@ public class StringUtil {
 		int increase = replacement.length() - replLength;
 		increase = (increase < 0 ? 0 : increase);
 		increase *= (max < 0 ? 16 : (max > 64 ? 64 : max));
-		StringBuffer buf = new StringBuffer(text.length() + increase);
+		StringBuilder buf = new StringBuilder(text.length() + increase);
 		while (end != -1) {
 			buf.append(text.substring(start, end)).append(replacement);
 			start = end + replLength;
@@ -85,10 +91,9 @@ public class StringUtil {
 	 */
 	public static String randomString(String salt, int length) {
 		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
 		int len = salt.length();
 		for (int i = 0; i < length; i++) {
-			sb.append(salt.charAt(random.nextInt(len)));
+			sb.append(salt.charAt(RANDOM.nextInt(len)));
 		}
 		return sb.toString();
 	}

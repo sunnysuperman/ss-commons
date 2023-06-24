@@ -13,7 +13,12 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
+import com.sunnysuperman.commons.exception.UnexpectedException;
+
 public class JarUtil {
+
+	protected JarUtil() {
+	}
 
 	/**
 	 * 拷贝JAR里的文件夹至文件系统
@@ -32,7 +37,7 @@ public class JarUtil {
 			JarFile jar = urlToJar(srcUrl);
 			copyJarDir(jar, srcPath, destDir);
 		} else {
-			throw new RuntimeException("Bad url: " + srcUrl);
+			throw new UnexpectedException("Bad url: " + srcUrl);
 		}
 	}
 
@@ -89,7 +94,7 @@ public class JarUtil {
 			JarFile jar = urlToJar(srcUrl);
 			copyJarFile(jar, srcPath, destFile);
 		} else {
-			throw new RuntimeException("Bad url: " + srcUrl);
+			throw new UnexpectedException("Bad url: " + srcUrl);
 		}
 	}
 

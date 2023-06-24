@@ -5,6 +5,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class ObjectIdGeneratorFactory {
 
+	private ObjectIdGeneratorFactory() {
+	}
+
 	public static class ObjectIdGenerator {
 		private final AtomicInteger counter = new AtomicInteger(new SecureRandom().nextInt());
 

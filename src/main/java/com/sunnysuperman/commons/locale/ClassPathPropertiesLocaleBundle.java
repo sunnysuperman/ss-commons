@@ -4,9 +4,11 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.sunnysuperman.commons.exception.Exceptions;
+import com.sunnysuperman.commons.exception.UnexpectedException;
 import com.sunnysuperman.commons.util.FileUtil;
-import com.sunnysuperman.commons.util.StringUtil;
 import com.sunnysuperman.commons.util.FileUtil.FileListHandler;
+import com.sunnysuperman.commons.util.StringUtil;
 
 public class ClassPathPropertiesLocaleBundle extends LocaleBundle {
 
@@ -76,14 +78,14 @@ public class ClassPathPropertiesLocaleBundle extends LocaleBundle {
 							if (locale == null) {
 								locale = options.getDefaultLocale();
 								if (locale == null) {
-									throw new RuntimeException("Bad locale file columnName: " + fileName);
+									throw new UnexpectedException("Bad locale file columnName: " + fileName);
 								}
 							}
 							Map<String, String> props = null;
 							try {
 								props = FileUtil.readProperties(in, options.getCharset(), false);
 							} catch (Exception e) {
-								throw new RuntimeException("Failed to load: " + fileName);
+								throw new UnexpectedException("Failed to load: " + fileName);
 							}
 							for (Entry<String, String> entry : props.entrySet()) {
 								String key = StringUtil.trimToNull(entry.getKey());
@@ -97,11 +99,7 @@ public class ClassPathPropertiesLocaleBundle extends LocaleBundle {
 
 					});
 		} catch (Exception e) {
-			if (e instanceof RuntimeException) {
-				throw (RuntimeException) e;
-			} else {
-				throw new RuntimeException(e);
-			}
+			throw Exceptions.wrapRuntimeException(e);
 		}
 		finishPut();
 	}

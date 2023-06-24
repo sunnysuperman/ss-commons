@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sunnysuperman.commons.exception.UnexpectedException;
+
 /**
  * <p>
  * A globally unique identifier for objects.
@@ -365,7 +367,7 @@ public final class ObjectId implements Comparable<ObjectId> {
 			MACHINE_IDENTIFIER = createMachineIdentifier();
 			PROCESS_IDENTIFIER = createProcessIdentifier();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new UnexpectedException(e);
 		}
 	}
 
