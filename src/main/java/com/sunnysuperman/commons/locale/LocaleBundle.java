@@ -15,88 +15,13 @@ import com.sunnysuperman.commons.util.PlaceholderUtil.CompileOptions;
 import com.sunnysuperman.commons.util.StringUtil;
 
 public abstract class LocaleBundle {
-
-	public static class LocaleBundleOptions {
-		private boolean strictMode;
-		private String defaultLocale;
-		private String[] prefLocales;
-		private String logKey;
-		private boolean escapeSpecialChars = true;
-		private String compileStartToken;
-		private String compileEndToken;
-
-		public boolean isStrictMode() {
-			return strictMode;
-		}
-
-		public LocaleBundleOptions setStrictMode(boolean strictMode) {
-			this.strictMode = strictMode;
-			return this;
-		}
-
-		public String getDefaultLocale() {
-			return defaultLocale;
-		}
-
-		public LocaleBundleOptions setDefaultLocale(String defaultLocale) {
-			this.defaultLocale = defaultLocale;
-			return this;
-		}
-
-		public String[] getPrefLocales() {
-			return prefLocales;
-		}
-
-		public LocaleBundleOptions setPrefLocales(String[] prefLocales) {
-			this.prefLocales = prefLocales;
-			return this;
-		}
-
-		public String getLogKey() {
-			return logKey;
-		}
-
-		public LocaleBundleOptions setLogKey(String logKey) {
-			this.logKey = logKey;
-			return this;
-		}
-
-		public boolean isEscapeSpecialChars() {
-			return escapeSpecialChars;
-		}
-
-		public LocaleBundleOptions setEscapeSpecialChars(boolean escapeSpecialChars) {
-			this.escapeSpecialChars = escapeSpecialChars;
-			return this;
-		}
-
-		public String getCompileStartToken() {
-			return compileStartToken;
-		}
-
-		public LocaleBundleOptions setCompileStartToken(String compileStartToken) {
-			this.compileStartToken = compileStartToken;
-			return this;
-		}
-
-		public String getCompileEndToken() {
-			return compileEndToken;
-		}
-
-		public LocaleBundleOptions setCompileEndToken(String compileEndToken) {
-			this.compileEndToken = compileEndToken;
-			return this;
-		}
-
-	}
-
 	private final byte[] writeLock = new byte[0];
 	private volatile boolean initialized = false;
 	private Map<String, Map<String, String>> bundlesMap = new ConcurrentHashMap<>(0);
 	protected final LocaleBundleOptions options;
 	private final CompileOptions compileOptions;
 
-	public LocaleBundle(LocaleBundleOptions options) {
+	protected LocaleBundle(LocaleBundleOptions options) {
 		this.options = options;
 		this.compileOptions = new CompileOptions().setStartToken(options.getCompileStartToken())
 				.setEndToken(options.getCompileEndToken());
