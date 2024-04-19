@@ -1,5 +1,6 @@
 package com.sunnysuperman.commons.exception;
 
+@SuppressWarnings("serial")
 public class UnexpectedException extends RuntimeException {
 
 	public UnexpectedException() {

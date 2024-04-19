@@ -20,6 +20,7 @@ public class FormatUtil {
 	protected FormatUtil() {
 	}
 
+	@SuppressWarnings("serial")
 	public static class FormatException extends RuntimeException {
 
 		public FormatException(String message) {
